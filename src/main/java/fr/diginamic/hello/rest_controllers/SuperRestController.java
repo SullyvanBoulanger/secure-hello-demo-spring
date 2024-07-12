@@ -1,4 +1,4 @@
-package fr.diginamic.hello.controllers;
+package fr.diginamic.hello.rest_controllers;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 
-public abstract class SuperController<S, T, U> {
+public abstract class SuperRestController<S, T, U> {
     @Autowired
     private SuperService<S, T, U> service;
 
@@ -36,7 +36,7 @@ public abstract class SuperController<S, T, U> {
 
     protected String nonExistentMessage;
 
-    public SuperController(String missingMessage) {
+    public SuperRestController(String missingMessage) {
         super();
         this.nonExistentMessage = missingMessage;
     }

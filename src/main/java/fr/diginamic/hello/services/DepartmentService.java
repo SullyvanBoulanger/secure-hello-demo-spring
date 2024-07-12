@@ -22,6 +22,7 @@ import fr.diginamic.hello.entities.City;
 import fr.diginamic.hello.entities.Department;
 import fr.diginamic.hello.exceptions.BadRequestException;
 import fr.diginamic.hello.repositories.DepartmentRepository;
+import jakarta.annotation.PreDestroy;
 
 @Service
 public class DepartmentService extends SuperService<String, Department, DepartmentDtoFromFront> {
@@ -74,5 +75,10 @@ public class DepartmentService extends SuperService<String, Department, Departme
         }
 
         return outputStream;
+    }
+
+    @PreDestroy
+    public void preDestroy(){
+        System.out.println("Oh non, je meurs");
     }
 }

@@ -14,13 +14,16 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 import fr.diginamic.hello.dtos.DepartmentApiGouvDto;
 import fr.diginamic.hello.entities.City;
 import fr.diginamic.hello.entities.Department;
+import fr.diginamic.hello.entities.UserAccount;
 import fr.diginamic.hello.services.CityService;
 import fr.diginamic.hello.services.DepartmentService;
+import fr.diginamic.hello.services.UserAccountService;
 
 @SpringBootApplication
 public class FillDatabase implements
@@ -31,6 +34,12 @@ public class FillDatabase implements
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private UserAccountService userAccountService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Value("${database.initialization}")
     private boolean isDatabaseInit;
@@ -94,6 +103,9 @@ public class FillDatabase implements
 
             departments.forEach(departmentService::insertFromEntity);
             sortedCities.forEach(cityService::insertFromEntity);
+
+            userAccountService.create(new UserAccount("admin", passwordEncoder.encode("admin"), "ADMIN"));
+            userAccountService.create(new UserAccount("user", passwordEncoder.encode("user"), "USER"));
 
             System.out.println("Database filled");
 

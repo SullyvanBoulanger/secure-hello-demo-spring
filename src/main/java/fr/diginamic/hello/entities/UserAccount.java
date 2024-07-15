@@ -1,6 +1,6 @@
 package fr.diginamic.hello.entities;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -31,19 +31,18 @@ public class UserAccount {
     private String password;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<GrantedAuthority> authorities;
+    private List<GrantedAuthority> authorities = new ArrayList<>();
 
-    public UserAccount(String username, String password, String... authorities) {
+    public UserAccount(String username, String password, String role) {
         super();
         this.username = username;
         this.password = password;
-        this.authorities = Arrays.stream(authorities)
-            .map(SimpleGrantedAuthority::new)
-            .map(GrantedAuthority.class::cast)
-            .toList();
+        GrantedAuthority roleAuthority = new SimpleGrantedAuthority(role);
+        this.authorities = new ArrayList<>();
+        this.authorities.add(roleAuthority);
     }
 
-    public UserDetails asUserDetails(){
+    public UserDetails asUserDetails() {
         return new User(username, password, authorities);
     }
 }
